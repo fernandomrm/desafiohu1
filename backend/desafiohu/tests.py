@@ -1,6 +1,8 @@
+from datetime import date
+
 from django.test import TestCase
 
-from .models import Hotel
+from .models import Hotel, Disponibilidade
 
 
 class BuscaHotelCidadeTestCase(TestCase):
@@ -46,3 +48,21 @@ class BuscaHotelCidadeTestCase(TestCase):
         query = 'Hot'
         resultado = Hotel.objects.busca(query)
         self.assertIn('Hotel Urbano', resultado)
+
+
+class BuscaHoteisDisponiveisTestCase(TestCase):
+
+    def setUp(self):
+        hotel = Hotel.objects.create(cidade='Rio de Janeiro', nome='Hotel Urbano')
+        Disponibilidade.objects.create(hotel=hotel, data=date(2016, 1, 1), disponivel=True)
+        Disponibilidade.objects.create(hotel=hotel, data=date(2016, 1, 2), disponivel=False)
+        Disponibilidade.objects.create(hotel=hotel, data=date(2016, 1, 3), disponivel=True)
+        Disponibilidade.objects.create(hotel=hotel, data=date(2016, 1, 4), disponivel=True)
+        Disponibilidade.objects.create(hotel=hotel, data=date(2016, 1, 5), disponivel=True)
+
+    def test_busca_hoteis_disponiveis_por_periodo(self):
+        query = 'Hotel Urbano'
+        data_inicio = date(2016, 1, 3)
+        data_fim = date(2016, 1, 5)
+        hoteis = Hotel.objects.busca_disponibilidade(query, data_inicio, data_fim)
+        self.assertEquals(len(hoteis), 1)

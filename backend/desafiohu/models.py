@@ -1,6 +1,7 @@
 import unicodedata
 
 from django.db import models
+from django.db.models import Q
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
@@ -36,6 +37,14 @@ class HotelManager(models.Manager):
             resultado = process.extract(query, lapida_extracao(resultado), limit=20, scorer=fuzz.partial_ratio)
         return lapida_extracao(resultado)
 
+    def busca_disponibilidade(self, query, data_inicio, data_fim):
+        hoteis = []
+        for hotel in self.filter(Q(nome__icontains=query) | Q(cidade__icontains=query)):
+            disponibilidades = Disponibilidade.objects.busca(hotel, data_inicio, data_fim)
+            if all(disponibilidades.values_list('disponivel', flat=True)):
+                hoteis.append(hotel)
+        return hoteis
+
 
 class Hotel(models.Model):
     nome = models.CharField(max_length=250)
@@ -44,7 +53,15 @@ class Hotel(models.Model):
     objects = HotelManager()
 
 
+class DisponibilidadeManager(models.Manager):
+
+    def busca(self, hotel, data_inicio, data_fim):
+        return self.filter(hotel=hotel, data__gte=data_inicio, data__lte=data_fim)
+
+
 class Disponibilidade(models.Model):
     hotel = models.ForeignKey('Hotel')
     data = models.DateField()
     disponivel = models.BooleanField()
+
+    objects = DisponibilidadeManager()
