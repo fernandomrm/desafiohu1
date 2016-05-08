@@ -1,14 +1,23 @@
 from datetime import date
 
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 
 from .models import Hotel, Disponibilidade
 
 
-class BuscaHotelCidadeTestCase(TestCase):
+class BaseTestCase(TestCase):
 
     def setUp(self):
-        Hotel.objects.create(cidade='Rio de Janeiro', nome='Hotel Urbano')
+        hotel = Hotel.objects.create(cidade='Rio de Janeiro', nome='Hotel Urbano')
+        Disponibilidade.objects.create(hotel=hotel, data=date(2016, 1, 1), disponivel=True)
+        Disponibilidade.objects.create(hotel=hotel, data=date(2016, 1, 2), disponivel=False)
+        Disponibilidade.objects.create(hotel=hotel, data=date(2016, 1, 3), disponivel=True)
+        Disponibilidade.objects.create(hotel=hotel, data=date(2016, 1, 4), disponivel=True)
+        Disponibilidade.objects.create(hotel=hotel, data=date(2016, 1, 5), disponivel=True)
+
+
+class BuscaHotelCidadeTestCase(BaseTestCase):
 
     def test_cria_amostra_de_pesquisa_de_hoteis_e_disponibilidades(self):
         amostra = Hotel.objects.cria_amostra()
@@ -50,15 +59,7 @@ class BuscaHotelCidadeTestCase(TestCase):
         self.assertIn('Hotel Urbano', resultado)
 
 
-class BuscaHoteisDisponiveisTestCase(TestCase):
-
-    def setUp(self):
-        hotel = Hotel.objects.create(cidade='Rio de Janeiro', nome='Hotel Urbano')
-        Disponibilidade.objects.create(hotel=hotel, data=date(2016, 1, 1), disponivel=True)
-        Disponibilidade.objects.create(hotel=hotel, data=date(2016, 1, 2), disponivel=False)
-        Disponibilidade.objects.create(hotel=hotel, data=date(2016, 1, 3), disponivel=True)
-        Disponibilidade.objects.create(hotel=hotel, data=date(2016, 1, 4), disponivel=True)
-        Disponibilidade.objects.create(hotel=hotel, data=date(2016, 1, 5), disponivel=True)
+class BuscaHoteisDisponiveisTestCase(BaseTestCase):
 
     def test_busca_hoteis_disponiveis_por_periodo(self):
         query = 'Hotel Urbano'
@@ -78,3 +79,11 @@ class BuscaHoteisDisponiveisTestCase(TestCase):
         data_fim = date(2016, 1, 5)
         hoteis = Hotel.objects.busca_disponibilidade(query, data_inicio, data_fim)
         self.assertEquals(len(hoteis), 0)
+
+
+class APITestCase(BaseTestCase):
+
+    def test_api_de_busca_de_hoteis_e_cidades(self):
+        response = self.client.get(reverse('busca_hoteis'), {'query': 'Hotel Urbano'})
+        self.assertEquals(200, response.status_code)
+        self.assertEquals(len(response.json()), 1)

@@ -1,3 +1,12 @@
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.views.generic import View
 
-# Create your views here.
+from .models import Hotel
+
+
+class BuscaHoteisView(View):
+
+    def get(self, request):
+        query = request.GET.get('query')
+        hoteis = Hotel.objects.busca(query)
+        return JsonResponse(hoteis, safe=False)
