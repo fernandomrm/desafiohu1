@@ -26,3 +26,8 @@ class BuscaHotelCidadeTestCase(TestCase):
         termo = 'Rio de Janeiro'
         resultado = Hotel.objects.busca(termo)
         self.assertNotIn('Hotel Urbano', resultado)
+
+    def test_busca_termo_com_acentos(self):
+        termo = 'ríó dé jánéíró'
+        resultado = Hotel.objects.busca(termo)
+        self.assertIn('Rio de Janeiro', resultado)
