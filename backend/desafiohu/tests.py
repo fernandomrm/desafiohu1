@@ -87,3 +87,9 @@ class APITestCase(BaseTestCase):
         response = self.client.get(reverse('busca_hoteis'), {'query': 'Hotel Urbano'})
         self.assertEquals(200, response.status_code)
         self.assertEquals(len(response.json()), 1)
+
+    def test_api_de_busca_de_hoteis_disponiveis_por_periodo(self):
+        response = self.client.get(reverse('busca_hoteis_disponiveis'), {'query': 'Hotel Urbano',
+            'data_inicio': '3/1/2016', 'data_fim': '5/1/2016'})
+        self.assertEquals(200, response.status_code)
+        self.assertEquals(len(response.json()), 1)
