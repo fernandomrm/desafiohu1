@@ -66,3 +66,8 @@ class BuscaHoteisDisponiveisTestCase(TestCase):
         data_fim = date(2016, 1, 5)
         hoteis = Hotel.objects.busca_disponibilidade(query, data_inicio, data_fim)
         self.assertEquals(len(hoteis), 1)
+
+    def test_busca_hoteis_disponiveis_sem_periodo_definido(self):
+        query = 'Hotel Urbano'
+        hoteis = Hotel.objects.busca_disponibilidade(query)
+        self.assertEquals(len(hoteis), 1)

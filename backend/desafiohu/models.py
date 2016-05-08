@@ -37,12 +37,15 @@ class HotelManager(models.Manager):
             resultado = process.extract(query, lapida_extracao(resultado), limit=20, scorer=fuzz.partial_ratio)
         return lapida_extracao(resultado)
 
-    def busca_disponibilidade(self, query, data_inicio, data_fim):
-        hoteis = []
-        for hotel in self.filter(Q(nome__icontains=query) | Q(cidade__icontains=query)):
-            disponibilidades = Disponibilidade.objects.busca(hotel, data_inicio, data_fim)
-            if all(disponibilidades.values_list('disponivel', flat=True)):
-                hoteis.append(hotel)
+    def busca_disponibilidade(self, query, data_inicio=None, data_fim=None):
+        hoteis = self.filter(Q(nome__icontains=query) | Q(cidade__icontains=query))
+        if data_inicio and data_fim:
+            hoteis_disponiveis = []
+            for hotel in hoteis:
+                disponibilidades = Disponibilidade.objects.busca(hotel, data_inicio, data_fim)
+                if all(disponibilidades.values_list('disponivel', flat=True)):
+                    hoteis_disponiveis.append(hotel)
+            return hoteis_disponiveis
         return hoteis
 
 
