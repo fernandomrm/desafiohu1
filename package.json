@@ -1,0 +1,19 @@
+{
+  "name": "desafiohu1",
+  "version": "1.0.0",
+  "description": "Implementar widget de busca de hoteis. O desenvolvimento engloba auto-complete de hoteis e busca por disponibilidades quando o usuário informa um periodo de estadia.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fernandomrm/desafiohu1.git"
+  },
+  "author": "Fernando Marcio Rocha Matos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fernandomrm/desafiohu1/issues"
+  },
+  "homepage": "https://github.com/fernandomrm/desafiohu1#readme"
+}
