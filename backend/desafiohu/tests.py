@@ -11,3 +11,13 @@ class BuscaHotelCidadeTestCase(TestCase):
     def test_cria_amostra_de_pesquisa_de_hoteis_e_disponibilidades(self):
         amostra = Hotel.objects.cria_amostra()
         self.assertEquals(len(amostra), 2)
+
+    def test_busca_por_cidade(self):
+        termo = 'Rio de Janeiro'
+        resultado = Hotel.objects.busca(termo)
+        self.assertEquals(termo, resultado[0])
+
+    def test_busca_por_hotel(self):
+        termo = 'Hotel Urbano'
+        resultado = Hotel.objects.busca(termo)
+        self.assertEquals(termo, resultado[0])
