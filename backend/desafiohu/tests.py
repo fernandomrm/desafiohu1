@@ -13,21 +13,31 @@ class BuscaHotelCidadeTestCase(TestCase):
         self.assertEquals(len(amostra), 2)
 
     def test_busca_por_cidade(self):
-        termo = 'Rio de Janeiro'
-        resultado = Hotel.objects.busca(termo)
-        self.assertEquals(termo, resultado[0])
+        query = 'Rio de Janeiro'
+        resultado = Hotel.objects.busca(query)
+        self.assertEquals(query, resultado[0])
 
     def test_busca_por_hotel(self):
-        termo = 'Hotel Urbano'
-        resultado = Hotel.objects.busca(termo)
-        self.assertEquals(termo, resultado[0])
+        query = 'Hotel Urbano'
+        resultado = Hotel.objects.busca(query)
+        self.assertEquals(query, resultado[0])
 
     def test_busca_nao_retorna_resultados_menos_favoraveis(self):
-        termo = 'Rio de Janeiro'
-        resultado = Hotel.objects.busca(termo)
+        query = 'Rio de Janeiro'
+        resultado = Hotel.objects.busca(query)
         self.assertNotIn('Hotel Urbano', resultado)
 
-    def test_busca_termo_com_acentos(self):
-        termo = 'ríó dé jánéíró'
-        resultado = Hotel.objects.busca(termo)
+    def test_busca_query_com_acentos(self):
+        query = 'ríó dé jánéíró'
+        resultado = Hotel.objects.busca(query)
         self.assertIn('Rio de Janeiro', resultado)
+
+    def test_busca_por_query_digitada_errada(self):
+        query = 'Riu do Janero'
+        resultado = Hotel.objects.busca(query)
+        self.assertIn('Rio de Janeiro', resultado)
+
+    def test_busca_por_query_digitada_fora_de_ordem(self):
+        query = 'Urbano Hotel'
+        resultado = Hotel.objects.busca(query)
+        self.assertIn('Hotel Urbano', resultado)

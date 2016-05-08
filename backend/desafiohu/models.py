@@ -22,11 +22,11 @@ class HotelManager(models.Manager):
         cidades, hoteis = zip(*cidades_e_hoteis)
         return list(set(cidades)) + list(set(hoteis))
 
-    def busca(self, termo):
-        termo = normaliza_string(termo)
+    def busca(self, query):
+        query = normaliza_string(query)
         amostra = self.cria_amostra()
-        resultado = process.extractBests(termo, amostra, limit=20, scorer=fuzz.token_set_ratio, score_cutoff=80)
-        resultado_ordenado = process.extract(termo, lapida_extracao(resultado), limit=20, scorer=fuzz.partial_ratio)
+        resultado = process.extractBests(query, amostra, limit=20, scorer=fuzz.token_set_ratio, score_cutoff=80)
+        resultado_ordenado = process.extract(query, lapida_extracao(resultado), limit=20, scorer=fuzz.partial_ratio)
         return lapida_extracao(resultado_ordenado)
 
 
