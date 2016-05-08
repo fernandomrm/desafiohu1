@@ -14,6 +14,11 @@ def lapida_extracao(extracao):
 def normaliza_string(string):
     return ''.join(c for c in unicodedata.normalize('NFD', string) if unicodedata.category(c) != 'Mn')
 
+def seleciona_scorer(query):
+    if len(query.split(' ')) > 1:
+        return fuzz.token_set_ratio
+    return fuzz.partial_ratio
+
 
 class HotelManager(models.Manager):
 
@@ -25,9 +30,11 @@ class HotelManager(models.Manager):
     def busca(self, query):
         query = normaliza_string(query)
         amostra = self.cria_amostra()
-        resultado = process.extractBests(query, amostra, limit=20, scorer=fuzz.token_set_ratio, score_cutoff=80)
-        resultado_ordenado = process.extract(query, lapida_extracao(resultado), limit=20, scorer=fuzz.partial_ratio)
-        return lapida_extracao(resultado_ordenado)
+        scorer = seleciona_scorer(query)
+        resultado = process.extractBests(query, amostra, limit=20, scorer=scorer, score_cutoff=60)
+        if scorer == fuzz.token_set_ratio:
+            resultado = process.extract(query, lapida_extracao(resultado), limit=20, scorer=fuzz.partial_ratio)
+        return lapida_extracao(resultado)
 
 
 class Hotel(models.Model):

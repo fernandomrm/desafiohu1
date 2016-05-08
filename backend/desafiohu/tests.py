@@ -6,7 +6,7 @@ from .models import Hotel
 class BuscaHotelCidadeTestCase(TestCase):
 
     def setUp(self):
-        hotel = Hotel.objects.create(cidade='Rio de Janeiro', nome='Hotel Urbano')
+        Hotel.objects.create(cidade='Rio de Janeiro', nome='Hotel Urbano')
 
     def test_cria_amostra_de_pesquisa_de_hoteis_e_disponibilidades(self):
         amostra = Hotel.objects.cria_amostra()
@@ -39,5 +39,10 @@ class BuscaHotelCidadeTestCase(TestCase):
 
     def test_busca_por_query_digitada_fora_de_ordem(self):
         query = 'Urbano Hotel'
+        resultado = Hotel.objects.busca(query)
+        self.assertIn('Hotel Urbano', resultado)
+
+    def test_busca_por_query_com_uma_palavra_incompleta(self):
+        query = 'Hot'
         resultado = Hotel.objects.busca(query)
         self.assertIn('Hotel Urbano', resultado)
