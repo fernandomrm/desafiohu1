@@ -21,3 +21,8 @@ class BuscaHotelCidadeTestCase(TestCase):
         termo = 'Hotel Urbano'
         resultado = Hotel.objects.busca(termo)
         self.assertEquals(termo, resultado[0])
+
+    def test_busca_nao_retorna_resultados_menos_favoraveis(self):
+        termo = 'Rio de Janeiro'
+        resultado = Hotel.objects.busca(termo)
+        self.assertNotIn('Hotel Urbano', resultado)

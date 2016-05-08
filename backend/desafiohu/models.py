@@ -17,7 +17,7 @@ class HotelManager(models.Manager):
 
     def busca(self, termo):
         amostra = self.cria_amostra()
-        resultado = process.extract(termo, amostra, limit=20, scorer=fuzz.token_set_ratio)
+        resultado = process.extractBests(termo, amostra, limit=20, scorer=fuzz.token_set_ratio, score_cutoff=80)
         resultado_ordenado = process.extract(termo, lapida_extracao(resultado), limit=20, scorer=fuzz.partial_ratio)
         return lapida_extracao(resultado_ordenado)
 
