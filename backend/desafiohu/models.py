@@ -46,7 +46,7 @@ class HotelManager(models.Manager):
                 if all(disponibilidades.values_list('disponivel', flat=True)):
                     hoteis_disponiveis.append(hotel)
             return hoteis_disponiveis
-        return hoteis
+        return list(hoteis)
 
 
 class Hotel(models.Model):
