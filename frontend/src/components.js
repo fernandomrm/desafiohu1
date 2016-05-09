@@ -59,6 +59,7 @@ export class FormBuscaHoteisDisponiveis extends Component {
             definir_intervalo: true,
         }
         this.bindValue = this.bindValue.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     bindValue(e) {
@@ -67,10 +68,16 @@ export class FormBuscaHoteisDisponiveis extends Component {
         this.setState(newState);
     }
 
+    handleSubmit(e) {
+        e.preventDefault();
+        const { query, data_inicio, data_fim } = this.state;
+        this.props.buscaHoteisDisponiveis(query, data_inicio, data_fim);
+    }
+
     render() {
         const { query, data_inicio, data_fim } = this.state;
         return (
-            <form>
+            <form ref="form" onSubmit={this.handleSubmit}>
                 <div className="row">
                     <div className="col-xs-12 col-sm-5">
                         <label>Quer ficar onde?</label>
@@ -80,10 +87,22 @@ export class FormBuscaHoteisDisponiveis extends Component {
                         <label>Quando? (entrada e saída)</label>
                         <div className="row">
                             <div className="col-sm-7">
-                                <input ref="data_inicio" type="date" name="data_inicio" value={data_inicio} onChange={this.bindValue} />
+                                <input
+                                    ref="data_inicio"
+                                    type="date"
+                                    name="data_inicio"
+                                    value={data_inicio}
+                                    onChange={this.bindValue}
+                                />
                             </div>
                             <div className="col-sm-7">
-                                <input ref="data_fim" type="date" name="data_fim" value={data_fim} onChange={this.bindValue} />
+                                <input
+                                    ref="data_fim"
+                                    type="date"
+                                    name="data_fim"
+                                    value={data_fim}
+                                    onChange={this.bindValue}
+                                />
                             </div>
                         </div>
                     </div>
@@ -106,4 +125,8 @@ export class FormBuscaHoteisDisponiveis extends Component {
             </form>
         )
     }
+}
+
+FormBuscaHoteisDisponiveis.propTypes = {
+    buscaHoteisDisponiveis: PropTypes.func.isRequired
 }

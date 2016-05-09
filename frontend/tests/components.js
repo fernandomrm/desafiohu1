@@ -65,8 +65,9 @@ describe('Components', () => {
     describe('Form de hotéis disponíveis', () => {
 
         function setup() {
+            var func = () => null;
             let renderer = TestUtils.createRenderer();
-            renderer.render(<FormBuscaHoteisDisponiveis />);
+            renderer.render(<FormBuscaHoteisDisponiveis buscaHoteisDisponiveis={func} />);
             let output = renderer.getRenderOutput();
             return output;
         }
@@ -82,7 +83,8 @@ describe('Components', () => {
         })
 
         it('Altera state quando a data de inicio é alterada', () => {
-            let componente = TestUtils.renderIntoDocument(<FormBuscaHoteisDisponiveis />);
+            let func = () => null;
+            let componente = TestUtils.renderIntoDocument(<FormBuscaHoteisDisponiveis buscaHoteisDisponiveis={func} />);
             let data_inicio = componente.refs.data_inicio;
             const value = '3/1/2016';
             data_inicio.value = value;
@@ -92,13 +94,22 @@ describe('Components', () => {
         })
 
         it('Altera state quando a data fim é alterada', () => {
-            let componente = TestUtils.renderIntoDocument(<FormBuscaHoteisDisponiveis />);
+            let func = () => null;
+            let componente = TestUtils.renderIntoDocument(<FormBuscaHoteisDisponiveis buscaHoteisDisponiveis={func} />);
             let data_fim = componente.refs.data_fim;
             const value = '5/1/2016';
             data_fim.value = value;
             TestUtils.Simulate.change(data_fim);
 
             expect(componente.state.data_fim).toBe(value);
+        })
+
+        it('Executa action buscaHoteisDisponiveis ao submeter formulário', () => {
+            let func = expect.createSpy();
+            let componente = TestUtils.renderIntoDocument(<FormBuscaHoteisDisponiveis buscaHoteisDisponiveis={func} />);
+            TestUtils.Simulate.submit(componente.refs.form);
+
+            expect(func.calls.length).toBe(1)
         })
     })
 })
