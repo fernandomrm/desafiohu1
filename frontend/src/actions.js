@@ -40,7 +40,7 @@ function buscaHoteisDisponiveisSuccess(hoteisDisponiveis) {
     }
 }
 
-export function buscaHoteisDisponiveis(query, dataInicio, dataFim) {
+export function buscaHoteisDisponiveis(query, dataInicio='', dataFim='') {
     return dispatch => {
         let data = {query: query, data_inicio: dataInicio, data_fim: dataFim};
         dispatch(buscaHoteisDisponiveisRequest());

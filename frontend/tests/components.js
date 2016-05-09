@@ -80,5 +80,25 @@ describe('Components', () => {
 
             expect(rows.length).toBe(3);
         })
+
+        it('Altera state quando a data de inicio é alterada', () => {
+            let componente = TestUtils.renderIntoDocument(<FormBuscaHoteisDisponiveis />);
+            let data_inicio = componente.refs.data_inicio;
+            const value = '3/1/2016';
+            data_inicio.value = value;
+            TestUtils.Simulate.change(data_inicio);
+
+            expect(componente.state.data_inicio).toBe(value);
+        })
+
+        it('Altera state quando a data fim é alterada', () => {
+            let componente = TestUtils.renderIntoDocument(<FormBuscaHoteisDisponiveis />);
+            let data_fim = componente.refs.data_fim;
+            const value = '5/1/2016';
+            data_fim.value = value;
+            TestUtils.Simulate.change(data_fim);
+
+            expect(componente.state.data_fim).toBe(value);
+        })
     })
 })

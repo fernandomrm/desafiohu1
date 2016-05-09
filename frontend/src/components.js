@@ -50,25 +50,42 @@ TabelaHoteisDisponiveis.propTypes = {
 }
 
 export class FormBuscaHoteisDisponiveis extends Component {
+    constructor() {
+        super();
+        this.state = {
+            query: '',
+            data_inicio: '',
+            data_fim: '',
+            definir_intervalo: true,
+        }
+        this.bindValue = this.bindValue.bind(this);
+    }
+
+    bindValue(e) {
+        var newState = {};
+        newState[e.target.name] = e.target.value;
+        this.setState(newState);
+    }
+
     render() {
+        const { query, data_inicio, data_fim } = this.state;
         return (
             <form>
                 <div className="row">
                     <div className="col-xs-12 col-sm-5">
                         <label>Quer ficar onde?</label>
-                        <input type="text" name="query" />
+                        <input type="text" name="query" value={query} />
                     </div>
                     <div className="col-sm-7">
                         <label>Quando? (entrada e saída)</label>
                         <div className="row">
                             <div className="col-sm-7">
-                                <input type="date" name="data_inicio" />
+                                <input ref="data_inicio" type="date" name="data_inicio" value={data_inicio} onChange={this.bindValue} />
                             </div>
                             <div className="col-sm-7">
-                                <input type="date" name="data_fim" />
+                                <input ref="data_fim" type="date" name="data_fim" value={data_fim} onChange={this.bindValue} />
                             </div>
                         </div>
-                        <input type="text" name="query" />
                     </div>
                 </div>
                 <div className="row">
