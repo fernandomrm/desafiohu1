@@ -48,3 +48,45 @@ export class TabelaHoteisDisponiveis extends Component {
 TabelaHoteisDisponiveis.propTypes = {
     hoteisDisponiveis: PropTypes.array.isRequired
 }
+
+export class FormBuscaHoteisDisponiveis extends Component {
+    render() {
+        return (
+            <form>
+                <div className="row">
+                    <div className="col-xs-12 col-sm-5">
+                        <label>Quer ficar onde?</label>
+                        <input type="text" name="query" />
+                    </div>
+                    <div className="col-sm-7">
+                        <label>Quando? (entrada e saída)</label>
+                        <div className="row">
+                            <div className="col-sm-7">
+                                <input type="date" name="data_inicio" />
+                            </div>
+                            <div className="col-sm-7">
+                                <input type="date" name="data_fim" />
+                            </div>
+                        </div>
+                        <input type="text" name="query" />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-xs-12">
+                        <label>
+                            <input type="checkbox" />
+                            Ainda não defini as datas
+                        </label>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-xs-12">
+                        <button type="submit" className="btn">
+                            Buscar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        )
+    }
+}

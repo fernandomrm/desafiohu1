@@ -2,7 +2,7 @@ import expect from 'expect';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
-import { Header, TabelaHoteisDisponiveis } from '../src/components';
+import { Header, TabelaHoteisDisponiveis, FormBuscaHoteisDisponiveis } from '../src/components';
 
 describe('Components', () => {
     describe('Header', () => {
@@ -59,6 +59,26 @@ describe('Components', () => {
             let rows = tbody.props.children;
 
             expect(rows.length).toBe(2);
+        })
+    })
+
+    describe('Form de hotéis disponíveis', () => {
+
+        function setup() {
+            let renderer = TestUtils.createRenderer();
+            renderer.render(<FormBuscaHoteisDisponiveis />);
+            let output = renderer.getRenderOutput();
+            return output;
+        }
+
+        it('Renderiza form de busca por hotéis disponíveis corretamente', () => {
+            const output = setup();
+
+            expect(output.type).toBe('form');
+
+            let rows = output.props.children;
+
+            expect(rows.length).toBe(3);
         })
     })
 })
