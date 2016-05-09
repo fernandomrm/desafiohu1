@@ -56,7 +56,7 @@ export class FormBuscaHoteisDisponiveis extends Component {
             query: '',
             data_inicio: '',
             data_fim: '',
-            definir_intervalo: true,
+            desahabilitaIntervalo: false,
         }
         this.bindValue = this.bindValue.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -64,7 +64,11 @@ export class FormBuscaHoteisDisponiveis extends Component {
 
     bindValue(e) {
         var newState = {};
-        newState[e.target.name] = e.target.value;
+        var value = e.target.value
+        if (e.target.type == 'checkbox') {
+            value = e.target.checked;
+        }
+        newState[e.target.name] = value;
         this.setState(newState);
     }
 
@@ -75,7 +79,7 @@ export class FormBuscaHoteisDisponiveis extends Component {
     }
 
     render() {
-        const { query, data_inicio, data_fim } = this.state;
+        const { query, data_inicio, data_fim, desahabilitaIntervalo } = this.state;
         return (
             <form ref="form" onSubmit={this.handleSubmit}>
                 <div className="row">
@@ -93,6 +97,7 @@ export class FormBuscaHoteisDisponiveis extends Component {
                                     name="data_inicio"
                                     value={data_inicio}
                                     onChange={this.bindValue}
+                                    readOnly={desahabilitaIntervalo}
                                 />
                             </div>
                             <div className="col-sm-7">
@@ -102,6 +107,7 @@ export class FormBuscaHoteisDisponiveis extends Component {
                                     name="data_fim"
                                     value={data_fim}
                                     onChange={this.bindValue}
+                                    readOnly={desahabilitaIntervalo}
                                 />
                             </div>
                         </div>
@@ -110,7 +116,7 @@ export class FormBuscaHoteisDisponiveis extends Component {
                 <div className="row">
                     <div className="col-xs-12">
                         <label>
-                            <input type="checkbox" />
+                            <input ref='checkbox' type="checkbox" name="desahabilitaIntervalo" onChange={this.bindValue} />
                             Ainda não defini as datas
                         </label>
                     </div>

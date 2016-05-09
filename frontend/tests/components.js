@@ -111,5 +111,15 @@ describe('Components', () => {
 
             expect(func.calls.length).toBe(1)
         })
+
+        it('Altera state quando o Checkbox é clicado', () => {
+            let func = () => null;
+            let componente = TestUtils.renderIntoDocument(<FormBuscaHoteisDisponiveis buscaHoteisDisponiveis={func} />);
+            let checkbox = componente.refs.checkbox;
+            checkbox.checked = true;
+            TestUtils.Simulate.change(checkbox);
+
+            expect(componente.state.desahabilitaIntervalo).toBe(true);
+        })
     })
 })
