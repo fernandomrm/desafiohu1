@@ -1,22 +1,26 @@
-# Desafio de auto-complete e busca disponibilidade
+ Desafio de auto-complete e busca disponibilidade
+=================================================
 
-Neste problema você deve implementar o widget de busca de hoteis. Este desenvolvimento engloba o auto-complete de hoteis e a busca por disponibilidades quando o usuário informa um periodo de estadia. 
+Este repositório contém tanto o backend quanto o frontend do desafio proposto. O desafio tem como problema, implementar um widget de busca de hotéis e cidades com auto-complete e uma busca por hotéis disponíveis em um período predefinido.
 
-A interface em anexo precisa ser implementada assim como o backend para consumir a lista de hoteis e as disponibilidades. Tudo será avaliado. Faça o seu melhor na linguagem onde vc possui o maior domínio.
+Inicialização do repositório e instalação das dependências:
+-----------------------------------------------------------
 
-***Restrições***
-* Eu preciso conseguir rodar seu código no mac os x OU no ubuntu;
-* Eu vou executar seu código com os seguintes comandos:
+    git clone git@github.com:fernandomrm/desafiohu1.git
+    cd desafiohu1
+    make build
 
->1. *git clone seu-fork*
-2. *cd seu-fork*
-3. *comando para instalar dependências*
-4. *comando para executar a aplicação*
+Rodando backend:
+----------------
 
-Esses comandos tem que ser o suficiente para configurar meu mac os x OU ubuntu e rodar seu programa. Pode considerar que eu tenho instalado no meu sistema Python, Java, PHP, Ruby, Android, iOS e/ou Node. Qualquer outra dependência que eu precisar vc tem que prover.
+    make run-backend
 
-***Performance***
-* Preciso que os seus serviços suportem um volume de 1000 requisições por segundo
+Rodando frontend:
+-----------------
 
-***Artefatos***
-* Imagens e database de hoteis e disponibilidades estão na pasta arquivos
+    make run-frontend
+
+Rodando testes:
+---------------
+
+    make test
