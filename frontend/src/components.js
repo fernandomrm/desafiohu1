@@ -123,13 +123,14 @@ export class FormBuscaHoteisDisponiveis extends Component {
                 <div className="row">
                     <div className="col-xs-12 col-sm-5">
                         <label>Quer ficar onde?</label>
-                        <WidgetBusca hoteis={hoteis} buscaHoteis={buscaHoteis} onChange={this.selectHotel} />
+                        <WidgetBusca ref="query" hoteis={hoteis} buscaHoteis={buscaHoteis} onChange={this.selectHotel} />
                     </div>
                     <div className="col-sm-7">
                         <label>Quando? (entrada e saída)</label>
                         <div className="row">
                             <div className="col-sm-6">
                                 <DatePicker
+                                    ref="data_inicio"
                                     selected={dataInicio}
                                     onChange={this.changeDataInicio}
                                     disabled={desahabilitaIntervalo}
@@ -140,6 +141,7 @@ export class FormBuscaHoteisDisponiveis extends Component {
                             </div>
                             <div className="col-sm-6">
                                 <DatePicker
+                                    ref="data_fim"
                                     selected={dataFim}
                                     onChange={this.changeDataFim}
                                     disabled={desahabilitaIntervalo}
