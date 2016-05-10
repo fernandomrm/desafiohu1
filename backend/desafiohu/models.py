@@ -32,7 +32,7 @@ class HotelManager(models.Manager):
         query = normaliza_string(query)
         amostra = self.cria_amostra()
         scorer = seleciona_scorer(query)
-        resultado = process.extractBests(query, amostra, limit=20, scorer=scorer, score_cutoff=65)
+        resultado = process.extractBests(query, amostra, limit=10, scorer=scorer, score_cutoff=65)
         if scorer == fuzz.token_set_ratio:
             resultado = process.extract(query, lapida_extracao(resultado), limit=20, scorer=fuzz.partial_ratio)
         return lapida_extracao(resultado)
