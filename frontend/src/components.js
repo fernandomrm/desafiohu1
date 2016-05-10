@@ -206,7 +206,7 @@ class WidgetBusca extends Component {
                     <ul className="typeahead-list list-block">
                         {hoteis.map((hotel, index) =>
                             <li key={index} onMouseDown={this.handleClick.bind(this, hotel)}>
-                                <a href="#">{hotel}</a>
+                                <a href="#"><i className="fa fa-map-marker" /> {hotel}</a>
                             </li>
                         )}
                     </ul>
