@@ -109,6 +109,10 @@ export class FormBuscaHoteisDisponiveis extends Component {
     render() {
         const { query, dataInicio, dataFim, desahabilitaIntervalo } = this.state;
         const { hoteis, buscaHoteis } = this.props;
+        var minDate = null;
+        if (dataInicio) {
+            minDate = dataInicio.add(1, 'days');
+        }
         return (
             <form ref="form" className="form-search" onSubmit={this.handleSubmit}>
                 <div className="row">
@@ -137,6 +141,7 @@ export class FormBuscaHoteisDisponiveis extends Component {
                                     className="form-control"
                                     dateFormat="DD/MM/YYYY"
                                     placeholderText="Saída"
+                                    minDate={minDate}
                                 />
                             </div>
                         </div>
