@@ -4,6 +4,8 @@
   "description": "Implementar widget de busca de hoteis. O desenvolvimento engloba auto-complete de hoteis e busca por disponibilidades quando o usuário informa um periodo de estadia.",
   "main": "index.js",
   "scripts": {
+    "server": "webpack-dev-server --content-base frontend/dist --inline --port 8001 --host 127.0.0.1 --compress --devtool 'source-map'",
+    "build": "webpack",
     "test": "mocha --compilers js:babel-register -r frontend/tests/setup/setup.mocha.js --recursive 'frontend/tests/*.js'"
   },
   "repository": {
