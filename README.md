@@ -24,3 +24,10 @@ Rodando testes:
 ---------------
 
     make test
+
+Dependências de sistema:
+------------------------
+
+    node v4.4.4
+    python 3.4.3
+    virtualenv 15.0.1
