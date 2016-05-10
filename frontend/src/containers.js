@@ -7,7 +7,7 @@ import { Header, FormBuscaHoteisDisponiveis, TabelaHoteisDisponiveis } from './c
 import { buscaHoteisDisponiveis, buscaHoteis } from './actions';
 
 
-class App extends Component {
+export class App extends Component {
     render() {
         const { buscaHoteisDisponiveis, hoteisDisponiveis, hoteis, buscaHoteis } = this.props;
         return (
