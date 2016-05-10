@@ -1,13 +1,20 @@
 import React, { PropTypes, Component } from 'react'
 import throttle from 'underscore';
 
+import './stylesheets/header.scss';
+
 
 export class Header extends Component {
     render() {
         return (
             <header>
-                <i className="icon-hoteis" />
-                <h1>HOTÉIS</h1>
+                <h1>
+                    <span className="fa-stack">
+                        <i className="fa fa-circle-thin fa-stack-2x" />
+                        <i className="fa fa-bed fa-stack-1x" />
+                    </span>
+                    HOTÉIS
+                </h1>
             </header>
         )
     }
