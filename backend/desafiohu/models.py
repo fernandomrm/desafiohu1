@@ -43,7 +43,7 @@ class HotelManager(models.Manager):
             hoteis_disponiveis = []
             for hotel in hoteis:
                 disponibilidades = Disponibilidade.objects.busca(hotel, data_inicio, data_fim)
-                if all(disponibilidades.values_list('disponivel', flat=True)):
+                if disponibilidades and all(disponibilidades.values_list('disponivel', flat=True)):
                     hoteis_disponiveis.append(hotel)
             return hoteis_disponiveis
         return list(hoteis)

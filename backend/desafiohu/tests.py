@@ -80,6 +80,13 @@ class BuscaHoteisDisponiveisTestCase(BaseTestCase):
         hoteis = Hotel.objects.busca_disponibilidade(query, data_inicio, data_fim)
         self.assertEquals(len(hoteis), 0)
 
+    def test_hotel_nao_e_disponivel_sem_disponibilidade_cadastrada(self):
+        query = 'Hotel Urbano'
+        data_inicio = date(2017, 1, 1)
+        data_fim = date(2017, 1, 5)
+        hoteis = Hotel.objects.busca_disponibilidade(query, data_inicio, data_fim)
+        self.assertEquals(len(hoteis), 0)
+
 
 class APITestCase(BaseTestCase):
 
