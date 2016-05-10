@@ -92,12 +92,17 @@ export class FormBuscaHoteisDisponiveis extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        var { query, dataInicio, dataFim } = this.state;
-        if (dataInicio) {
-            dataInicio = dataInicio.format('YYYY-MM-DD');
-        }
-        if (dataFim) {
-            dataFim = dataFim.format('YYYY-MM-DD');
+        var { query, dataInicio, dataFim, desahabilitaIntervalo } = this.state;
+        if (desahabilitaIntervalo) {
+            dataInicio = null;
+            dataFim = null;
+        } else {
+            if (dataInicio) {
+                dataInicio = dataInicio.format('YYYY-MM-DD');
+            }
+            if (dataFim) {
+                dataFim = dataFim.format('YYYY-MM-DD');
+            }
         }
         this.props.buscaHoteisDisponiveis(query, dataInicio, dataFim);
     }
