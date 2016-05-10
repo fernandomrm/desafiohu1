@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react'
 import throttle from 'underscore';
 
 import './stylesheets/header.scss';
+import './stylesheets/widget-busca.scss';
 
 
 export class Header extends Component {
