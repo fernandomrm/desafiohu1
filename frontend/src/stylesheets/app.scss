@@ -1,0 +1,17 @@
+.container-busca {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 20px;
+    > p {
+        color: #36BEFE;
+        font-size: 20px;
+        text-align: center;
+        margin: 10px 0;
+    }
+}
+
+.btn {
+    &:focus {
+        outline: 0 !important;
+    }
+}

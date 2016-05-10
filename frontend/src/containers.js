@@ -1,6 +1,8 @@
 import React, { PropTypes, Component } from 'react'
 import { connect } from 'react-redux';
 
+import './stylesheets/app.scss';
+
 import { Header, FormBuscaHoteisDisponiveis, TabelaHoteisDisponiveis } from './components';
 import { buscaHoteisDisponiveis, buscaHoteis } from './actions';
 
@@ -9,13 +11,16 @@ class App extends Component {
     render() {
         const { buscaHoteisDisponiveis, hoteisDisponiveis, hoteis, buscaHoteis } = this.props;
         return (
-            <div>
-                <Header />
-                <FormBuscaHoteisDisponiveis
-                    buscaHoteisDisponiveis={buscaHoteisDisponiveis}
-                    hoteis={hoteis}
-                    buscaHoteis={buscaHoteis}
-                />
+            <div className="container">
+                <div className="container-busca">
+                    <Header />
+                    <p>+ 170.000 hotéis, pousadas e resorts no mundo todo.</p>
+                    <FormBuscaHoteisDisponiveis
+                        buscaHoteisDisponiveis={buscaHoteisDisponiveis}
+                        hoteis={hoteis}
+                        buscaHoteis={buscaHoteis}
+                    />
+                </div>
                 <TabelaHoteisDisponiveis hoteisDisponiveis={hoteisDisponiveis} />
             </div>
         )
