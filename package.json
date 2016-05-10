@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --content-base frontend/dist --inline --port 8001 --host 127.0.0.1 --compress --devtool 'source-map'",
     "build": "webpack",
-    "test": "mocha --compilers js:babel-register -r frontend/tests/setup/setup.mocha.js --recursive 'frontend/tests/*.js'"
+    "test": "mocha --compilers js:babel-register,js:./frontend/tests/setup/css-modules-compiler.js -r frontend/tests/setup/setup.mocha.js --recursive 'frontend/tests/*.js'"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-register": "^6.8.0",
     "css-loader": "^0.23.1",
+    "css-modules-require-hook": "^4.0.0",
     "expect": "^1.20.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
@@ -43,6 +44,7 @@
   },
   "dependencies": {
     "jquery": "^2.2.3",
+    "moment": "^2.13.0",
     "react": "^15.0.2",
     "react-datepicker": "^0.27.0",
     "react-dom": "^15.0.2",
