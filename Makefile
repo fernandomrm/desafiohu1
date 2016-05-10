@@ -21,7 +21,7 @@ build:
 	@echo OK
 
 run-backend:
-	virtualenv/bin/python3 backend/manage.py runserver
+	cd backend && ../virtualenv/bin/gunicorn -w 4 backend.wsgi:application
 
 run-frontend:
 	npm start
