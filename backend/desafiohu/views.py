@@ -22,8 +22,8 @@ class BuscaHoteisDisponiveisView(View):
         data_inicio = None
         data_fim = None
         if request.GET.get('data_inicio'):
-            data_inicio = datetime.strptime(request.GET.get('data_inicio'), '%d/%m/%Y').date()
+            data_inicio = datetime.strptime(request.GET.get('data_inicio'), '%Y-%m-%d').date()
         if request.GET.get('data_fim'):
-            data_fim = datetime.strptime(request.GET.get('data_fim'), '%d/%m/%Y').date()
+            data_fim = datetime.strptime(request.GET.get('data_fim'), '%Y-%m-%d').date()
         hoteis = Hotel.objects.busca_disponibilidade(query, data_inicio, data_fim)
         return JsonResponse(hoteis, encoder=HotelEncoder, safe=False)
