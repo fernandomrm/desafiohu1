@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import './stylesheets/header.scss';
 import './stylesheets/widget-busca.scss';
 import './stylesheets/form-search.scss';
+import './stylesheets/table-hoteis.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 
 
@@ -42,7 +43,7 @@ export class TabelaHoteisDisponiveis extends Component {
 
     render() {
         return (
-            <table className="table">
+            <table className="table table-hoteis">
                 <thead>
                     <tr>
                         <th>Hotel</th>
