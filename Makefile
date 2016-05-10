@@ -9,7 +9,7 @@ build-backend:
 	rm -rf virtualenv
 	virtualenv -p python3 virtualenv
 	virtualenv/bin/pip install -r backend/backend/requirements.txt
-	virtualenv/bin/python3 backend/manage.py migrate
+	cd backend && ../virtualenv/bin/python3 manage.py migrate
 
 build-frontend:
 	$(info $nConstruindo dependências do frontend$n)
