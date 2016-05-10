@@ -152,6 +152,7 @@ class WidgetBusca extends Component {
         this.state = {query: '', showResults: false, loading: false};
         this.searchItems = throttle(this.searchItems, 1000).bind(this);
         this.handleBlur = this.handleBlur.bind(this);
+        this.handleFocus = this.handleFocus.bind(this);
     }
 
     searchItems(e) {
@@ -175,13 +176,19 @@ class WidgetBusca extends Component {
     }
 
     renderResults() {
-        const { query } = this.state;
+        const { query, showResults } = this.state;
         const { hoteis } = this.props;
-        if (hoteis.length) {
-            return hoteis.map((hotel, index) =>
-                <li key={index} onMouseDown={this.handleClick.bind(this, hotel)}>
-                    {hotel}
-                </li>
+        if (showResults && hoteis.length) {
+            return (
+                <div className="typeahead-result">
+                    <ul className="typeahead-list list-block">
+                        {hoteis.map((hotel, index) =>
+                            <li key={index} onMouseDown={this.handleClick.bind(this, hotel)}>
+                                <a href="#">{hotel}</a>
+                            </li>
+                        )}
+                    </ul>
+                </div>
             );
         }
         return;
@@ -189,6 +196,10 @@ class WidgetBusca extends Component {
 
     handleBlur() {
         this.setState({showResults: false});
+    }
+
+    handleFocus() {
+        this.setState({showResults: true});
     }
 
     render() {
@@ -207,16 +218,13 @@ class WidgetBusca extends Component {
                                 onChange={this.searchItems}
                                 value={query}
                                 onBlur={this.handleBlur}
-                                required
+                                required={true}
+                                onFocus={this.handleFocus}
                             />
                             <input type="hidden" />
                         </span>
                     </div>
-                    <div className="typeahead-result">
-                        <ul className="typeahead-list" className={listDisplay}>
-                            {this.renderResults()}
-                        </ul>
-                    </div>
+                    {this.renderResults()}
                 </div>
             </div>
         )
