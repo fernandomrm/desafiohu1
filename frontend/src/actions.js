@@ -1,4 +1,4 @@
-import { fetch } from  'whatwg-fetch';
+import $ from 'jquery';
 
 export const BUSCA_HOTEIS_REQUEST = 'BUSCA_HOTEIS_REQUEST';
 export const BUSCA_HOTEIS_SUCCESS = 'BUSCA_HOTEIS_SUCCESS';
@@ -18,12 +18,18 @@ function buscaHoteisSuccess(hoteis) {
     }
 }
 
-export function buscaHoteis(query) {
+export function buscaHoteis(query, successCallback = () => null) {
     return dispatch => {
         dispatch(buscaHoteisRequest());
-        return fetch('http://localhost:8000/busca-hoteis', {query: query})
-            .then(res => res.json())
-            .then(json => dispatch(buscaHoteisSuccess(json)))
+        return $.ajax('http://localhost:8000/busca-hoteis/', {
+            'data': {query: query},
+            'method': 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: (json) => {
+                dispatch(buscaHoteisSuccess(json))
+                successCallback();
+            }
+        });
     }
 }
 
@@ -44,8 +50,13 @@ export function buscaHoteisDisponiveis(query, dataInicio='', dataFim='') {
     return dispatch => {
         let data = {query: query, data_inicio: dataInicio, data_fim: dataFim};
         dispatch(buscaHoteisDisponiveisRequest());
-        return fetch('http://localhost:8000/busca-hoteis-disponiveis', data)
-            .then(res => res.json())
-            .then(json => dispatch(buscaHoteisDisponiveisSuccess(json)))
+        return $.ajax('http://localhost:8000/busca-hoteis-disponiveis/', {
+            'data': data,
+            'method': 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: (json) => {
+                dispatch(buscaHoteisDisponiveisSuccess(json))
+            }
+        });
     }
 }
