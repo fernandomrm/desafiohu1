@@ -1,0 +1,13 @@
+.form-search {
+    padding: 10px;
+    .btn-search {
+        width: 100%;
+        font-size: 18px;
+        color: #fff;
+        background-color: #FF7900;
+        &:hover, &:focus {
+            background-color: #FF8A21;
+            color: #fff;
+        }
+    }
+}

@@ -1,8 +1,11 @@
 import React, { PropTypes, Component } from 'react'
 import throttle from 'underscore';
+import DatePicker from 'react-datepicker';
 
 import './stylesheets/header.scss';
 import './stylesheets/widget-busca.scss';
+import './stylesheets/form-search.scss';
+import 'react-datepicker/dist/react-datepicker.css';
 
 
 export class Header extends Component {
@@ -63,29 +66,39 @@ export class FormBuscaHoteisDisponiveis extends Component {
         super();
         this.state = {
             query: '',
-            data_inicio: '',
-            data_fim: '',
+            dataInicio: null,
+            dataFim: null,
             desahabilitaIntervalo: false,
         }
-        this.bindValue = this.bindValue.bind(this);
+        this.clickCheckbox = this.clickCheckbox.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.selectHotel = this.selectHotel.bind(this);
+        this.changeDataInicio = this.changeDataInicio.bind(this);
+        this.changeDataFim = this.changeDataFim.bind(this);
     }
 
-    bindValue(e) {
-        var newState = {};
-        var value = e.target.value
-        if (e.target.type == 'checkbox') {
-            value = e.target.checked;
-        }
-        newState[e.target.name] = value;
-        this.setState(newState);
+    clickCheckbox(e) {
+        this.setState({desahabilitaIntervalo: e.target.checked});
+    }
+
+    changeDataInicio(data) {
+        this.setState({dataInicio: data});
+    }
+
+    changeDataFim(data) {
+        this.setState({dataFim: data});
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        const { query, data_inicio, data_fim } = this.state;
-        this.props.buscaHoteisDisponiveis(query, data_inicio, data_fim);
+        var { query, dataInicio, dataFim } = this.state;
+        if (dataInicio) {
+            dataInicio = dataInicio.format('YYYY-MM-DD');
+        }
+        if (dataFim) {
+            dataFim = dataFim.format('YYYY-MM-DD');
+        }
+        this.props.buscaHoteisDisponiveis(query, dataInicio, dataFim);
     }
 
     selectHotel(hotel) {
@@ -93,10 +106,10 @@ export class FormBuscaHoteisDisponiveis extends Component {
     }
 
     render() {
-        const { query, data_inicio, data_fim, desahabilitaIntervalo } = this.state;
+        const { query, dataInicio, dataFim, desahabilitaIntervalo } = this.state;
         const { hoteis, buscaHoteis } = this.props;
         return (
-            <form ref="form" onSubmit={this.handleSubmit}>
+            <form ref="form" className="form-search" onSubmit={this.handleSubmit}>
                 <div className="row">
                     <div className="col-xs-12 col-sm-5">
                         <label>Quer ficar onde?</label>
@@ -105,41 +118,41 @@ export class FormBuscaHoteisDisponiveis extends Component {
                     <div className="col-sm-7">
                         <label>Quando? (entrada e saída)</label>
                         <div className="row">
-                            <div className="col-sm-7">
-                                <input
-                                    ref="data_inicio"
-                                    type="date"
-                                    name="data_inicio"
-                                    value={data_inicio}
-                                    onChange={this.bindValue}
-                                    readOnly={desahabilitaIntervalo}
+                            <div className="col-sm-6">
+                                <DatePicker
+                                    selected={dataInicio}
+                                    onChange={this.changeDataInicio}
+                                    disabled={desahabilitaIntervalo}
+                                    className="form-control"
+                                    dateFormat="DD/MM/YYYY"
+                                    placeholderText="Entrada"
                                 />
                             </div>
-                            <div className="col-sm-7">
-                                <input
-                                    ref="data_fim"
-                                    type="date"
-                                    name="data_fim"
-                                    value={data_fim}
-                                    onChange={this.bindValue}
-                                    readOnly={desahabilitaIntervalo}
+                            <div className="col-sm-6">
+                                <DatePicker
+                                    selected={dataFim}
+                                    onChange={this.changeDataFim}
+                                    disabled={desahabilitaIntervalo}
+                                    className="form-control"
+                                    dateFormat="DD/MM/YYYY"
+                                    placeholderText="Saída"
                                 />
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-xs-12 checkbox">
+                                <label>
+                                    <input ref='checkbox' type="checkbox" onChange={this.clickCheckbox} />
+                                    Ainda não defini as datas
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-xs-12">
-                        <label>
-                            <input ref='checkbox' type="checkbox" name="desahabilitaIntervalo" onChange={this.bindValue} />
-                            Ainda não defini as datas
-                        </label>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-xs-12">
-                        <button type="submit" className="btn">
-                            Buscar
+                        <button type="submit" className="btn btn-search">
+                            <i className="fa fa-search" /> Buscar
                         </button>
                     </div>
                 </div>
@@ -211,9 +224,7 @@ class WidgetBusca extends Component {
     }
 
     render() {
-        const { query, showResults, loading } = this.state;
-        var listDisplay = 'typeahead-list ' + (showResults ? 'list-block' : 'list-none');
-
+        const { query, loading } = this.state;
         return (
             <div className="item-input-search">
                 <div className="typeahead-container">
