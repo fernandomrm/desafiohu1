@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react'
+import throttle from 'underscore';
 
 
 export class Header extends Component {
@@ -60,6 +61,7 @@ export class FormBuscaHoteisDisponiveis extends Component {
         }
         this.bindValue = this.bindValue.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.selectHotel = this.selectHotel.bind(this);
     }
 
     bindValue(e) {
@@ -78,14 +80,19 @@ export class FormBuscaHoteisDisponiveis extends Component {
         this.props.buscaHoteisDisponiveis(query, data_inicio, data_fim);
     }
 
+    selectHotel(hotel) {
+        this.setState({query: hotel});
+    }
+
     render() {
         const { query, data_inicio, data_fim, desahabilitaIntervalo } = this.state;
+        const { hoteis, buscaHoteis } = this.props;
         return (
             <form ref="form" onSubmit={this.handleSubmit}>
                 <div className="row">
                     <div className="col-xs-12 col-sm-5">
                         <label>Quer ficar onde?</label>
-                        <input type="text" name="query" value={query} />
+                        <WidgetBusca hoteis={hoteis} buscaHoteis={buscaHoteis} onChange={this.selectHotel} />
                     </div>
                     <div className="col-sm-7">
                         <label>Quando? (entrada e saída)</label>
@@ -134,5 +141,90 @@ export class FormBuscaHoteisDisponiveis extends Component {
 }
 
 FormBuscaHoteisDisponiveis.propTypes = {
-    buscaHoteisDisponiveis: PropTypes.func.isRequired
+    buscaHoteisDisponiveis: PropTypes.func.isRequired,
+    hoteis: PropTypes.array.isRequired,
+    buscaHoteis: PropTypes.func.isRequired
+}
+
+class WidgetBusca extends Component {
+    constructor() {
+        super();
+        this.state = {query: '', showResults: false, loading: false};
+        this.searchItems = throttle(this.searchItems, 1000).bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
+    }
+
+    searchItems(e) {
+        const { buscaHoteis } = this.props;
+        var query = e.target.value;
+        this.setState({query: query, loading: true});
+        if (query.length > 2) {
+            buscaHoteis(query, () =>
+                this.setState({showResults: true, loading: false})
+            );
+        } else {
+            this.setState({showResults: false, loading: false});
+        }
+        this.props.onChange(query);
+    }
+
+    handleClick(query, e) {
+        e.preventDefault();
+        this.props.onChange(query);
+        this.setState({query: query, showResults: false});
+    }
+
+    renderResults() {
+        const { query } = this.state;
+        const { hoteis } = this.props;
+        if (hoteis.length) {
+            return hoteis.map((hotel, index) =>
+                <li key={index} onMouseDown={this.handleClick.bind(this, hotel)}>
+                    {hotel}
+                </li>
+            );
+        }
+        return;
+    }
+
+    handleBlur() {
+        this.setState({showResults: false});
+    }
+
+    render() {
+        const { query, showResults, loading } = this.state;
+        var listDisplay = 'typeahead-list ' + (showResults ? 'list-block' : 'list-none');
+
+        return (
+            <div className="item-input-search">
+                <div className="typeahead-container">
+                    <div className="typeahead-field">
+                        <span className="typeahead-query">
+                            <input
+                                className={loading ? 'loading' : ''}
+                                type="search"
+                                placeholder="cidade ou hotel"
+                                onChange={this.searchItems}
+                                value={query}
+                                onBlur={this.handleBlur}
+                                required
+                            />
+                            <input type="hidden" />
+                        </span>
+                    </div>
+                    <div className="typeahead-result">
+                        <ul className="typeahead-list" className={listDisplay}>
+                            {this.renderResults()}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
+
+WidgetBusca.propTypes = {
+    hoteis: PropTypes.array.isRequired,
+    buscaHoteis: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired
 }
