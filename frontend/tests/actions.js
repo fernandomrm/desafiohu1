@@ -34,10 +34,10 @@ describe('Actions', () => {
         ];
         const store = mockStore({ hoteis: [] });
 
-        return store.dispatch(buscaHoteis('Hotel Urbano'))
-            .then(() => {
-                expect(store.getActions()).toEqual(expectedActions)
-            });
+        store.dispatch(buscaHoteis('Hotel Urbano'))
+        .complete(() => {
+            expect(store.getActions()).toEqual(expectedActions)
+        });
     })
 
     it('Cria action BUSCA_HOTEIS_DISPONIVEIS_SUCCESS ao concluir a busca de hóteis disponíveis com sucesso', () => {
@@ -53,9 +53,9 @@ describe('Actions', () => {
         ];
         const store = mockStore({ hoteisDisponiveis: [] });
 
-        return store.dispatch(buscaHoteisDisponiveis('Hotel Urbano', '3/1/2016', '5/1/2016'))
-            .then(() => {
-                expect(store.getActions()).toEqual(expectedActions)
-            });
+        store.dispatch(buscaHoteisDisponiveis('Hotel Urbano', '3/1/2016', '5/1/2016'))
+        .complete(() => {
+            expect(store.getActions()).toEqual(expectedActions)
+        });
     })
 })
