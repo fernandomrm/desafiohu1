@@ -21,7 +21,7 @@ build:
 	@echo OK
 
 run-backend:
-	cd backend && ../virtualenv/bin/gunicorn -w 4 backend.wsgi:application
+	cd backend && ../virtualenv/bin/gunicorn -w 4 --access-logfile=- backend.wsgi:application
 
 run-frontend:
 	npm start

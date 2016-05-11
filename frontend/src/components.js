@@ -71,6 +71,7 @@ export class FormBuscaHoteisDisponiveis extends Component {
             dataInicio: null,
             dataFim: null,
             desahabilitaIntervalo: false,
+            error: '',
         }
         this.clickCheckbox = this.clickCheckbox.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -98,18 +99,33 @@ export class FormBuscaHoteisDisponiveis extends Component {
             dataInicio = null;
             dataFim = null;
         } else {
-            if (dataInicio) {
+            if (dataInicio && dataFim) {
+                if (dataInicio >= dataFim) {
+                    this.setState({error: 'A data de saída deve ser maior que a data de entrada'});
+                    return;
+                }
                 dataInicio = dataInicio.format('YYYY-MM-DD');
-            }
-            if (dataFim) {
                 dataFim = dataFim.format('YYYY-MM-DD');
             }
         }
+        this.setState({error: null});
         this.props.buscaHoteisDisponiveis(query, dataInicio, dataFim);
     }
 
     selectHotel(hotel) {
         this.setState({query: hotel});
+    }
+
+    renderError() {
+        const { error } = this.state;
+        if (error) {
+            return (
+                <div className='alert alert-danger'>
+                    <p>{error}</p>
+                </div>
+            )
+        }
+        return;
     }
 
     render() {
@@ -121,6 +137,7 @@ export class FormBuscaHoteisDisponiveis extends Component {
         }
         return (
             <form ref="form" className="form-search" onSubmit={this.handleSubmit}>
+                {this.renderError()}
                 <div className="row">
                     <div className="col-xs-12 col-sm-5">
                         <label style={{marginTop: '5px'}}>Quer ficar onde?</label>
