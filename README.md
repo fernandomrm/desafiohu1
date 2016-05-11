@@ -13,12 +13,12 @@ Inicialização do repositório e instalação das dependências:
 Rodando backend:
 ----------------
 
-    make run-backend
+    make run-backend # <--- Abrirá o servidor na porta 8000
 
 Rodando frontend:
 -----------------
 
-    make run-frontend
+    make run-frontend # <-- Abrirá o servidor na porta 8001
 
 Rodando testes:
 ---------------
