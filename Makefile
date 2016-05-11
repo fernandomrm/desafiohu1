@@ -37,3 +37,6 @@ test-frontend:
 test:
 	@$(MAKE) test-backend --silent
 	@$(MAKE) test-frontend --silent
+
+flake8:
+	@cd backend && ../virtualenv/bin/flake8 --max-line-length=119 --exclude=virtualenv/,migrations/ . || true
