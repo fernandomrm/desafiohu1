@@ -12,8 +12,10 @@ def lapida_extracao(extracao):
         return list(combinacoes)
     return []
 
+
 def normaliza_string(string):
     return ''.join(c for c in unicodedata.normalize('NFD', string) if unicodedata.category(c) != 'Mn')
+
 
 def seleciona_scorer(query):
     if len(query.split(' ')) > 1:

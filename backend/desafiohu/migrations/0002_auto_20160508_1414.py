@@ -23,6 +23,7 @@ def importa_hoteis(apps, schema_editor):
         sys.stdout.flush()
     print('\n')
 
+
 def importa_disponibilidades(apps, schema_editor):
     Disponibilidade = apps.get_model('desafiohu', 'Disponibilidade')
     doc = codecs.open('../artefatos/disp.txt', 'r', 'utf-8')
@@ -39,6 +40,7 @@ def importa_disponibilidades(apps, schema_editor):
         sys.stdout.write('.')
         sys.stdout.flush()
     print('\n')
+
 
 def realiza_impotacao(apps, schema_editor):
     importa_hoteis(apps, schema_editor)
