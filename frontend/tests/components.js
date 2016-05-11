@@ -78,7 +78,7 @@ describe('Components', () => {
 
             let rows = output.props.children;
 
-            expect(rows.length).toBe(2);
+            expect(rows.length).toBe(3);
         })
 
         it('Altera state quando a data de inicio é alterada', () => {
