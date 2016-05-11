@@ -123,13 +123,13 @@ export class FormBuscaHoteisDisponiveis extends Component {
             <form ref="form" className="form-search" onSubmit={this.handleSubmit}>
                 <div className="row">
                     <div className="col-xs-12 col-sm-5">
-                        <label>Quer ficar onde?</label>
+                        <label style={{marginTop: '5px'}}>Quer ficar onde?</label>
                         <WidgetBusca ref="query" hoteis={hoteis} buscaHoteis={buscaHoteis} onChange={this.selectHotel} />
                     </div>
                     <div className="col-sm-7">
-                        <label>Quando? (entrada e saída)</label>
+                        <label style={{marginTop: '5px'}}>Quando? (entrada e saída)</label>
                         <div className="row">
-                            <div className="col-sm-6">
+                            <div className="col-xs-12 col-sm-6" style={{marginBottom: '5px'}}>
                                 <DatePicker
                                     ref="data_inicio"
                                     selected={dataInicio}
@@ -140,7 +140,7 @@ export class FormBuscaHoteisDisponiveis extends Component {
                                     placeholderText="Entrada"
                                 />
                             </div>
-                            <div className="col-sm-6">
+                            <div className="col-xs-12 col-sm-6">
                                 <DatePicker
                                     ref="data_fim"
                                     selected={dataFim}
