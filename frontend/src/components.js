@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react'
 import throttle from 'underscore';
 import DatePicker from 'react-datepicker';
+import moment from 'moment';
 
 import './stylesheets/header.scss';
 import './stylesheets/widget-busca.scss';
@@ -116,7 +117,7 @@ export class FormBuscaHoteisDisponiveis extends Component {
         const { hoteis, buscaHoteis } = this.props;
         var minDate = null;
         if (dataInicio) {
-            minDate = dataInicio.add(1, 'days');
+            minDate = moment(dataInicio).add(1, 'days');
         }
         return (
             <form ref="form" className="form-search" onSubmit={this.handleSubmit}>
