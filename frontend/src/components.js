@@ -180,7 +180,7 @@ FormBuscaHoteisDisponiveis.propTypes = {
     buscaHoteis: PropTypes.func.isRequired
 }
 
-class WidgetBusca extends Component {
+export class WidgetBusca extends Component {
     constructor() {
         super();
         this.state = {query: '', showResults: false, loading: false};
@@ -244,8 +244,9 @@ class WidgetBusca extends Component {
                     <div className="typeahead-field">
                         <span className="typeahead-query">
                             <input
+                                ref='input_search'
                                 className={loading ? 'loading' : ''}
-                                type="search"
+                                type='search'
                                 placeholder="cidade ou hotel"
                                 onChange={this.searchItems}
                                 value={query}

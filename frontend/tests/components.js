@@ -3,7 +3,7 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import moment from 'moment';
 
-import { Header, TabelaHoteisDisponiveis, FormBuscaHoteisDisponiveis } from '../src/components';
+import { Header, TabelaHoteisDisponiveis, FormBuscaHoteisDisponiveis, WidgetBusca } from '../src/components';
 
 describe('Components', () => {
     describe('Header', () => {
@@ -137,6 +137,59 @@ describe('Components', () => {
             query.props.onChange(value);
 
             expect(componente.state.query).toBe(value);
+        })
+    })
+
+    describe('Widget de busca de hotéis e cidades', () => {
+
+        function setup(buscaHoteis = () => null, onChange = () => null) {
+            let componente = TestUtils.renderIntoDocument(
+                <WidgetBusca hoteis={[]} buscaHoteis={buscaHoteis} onChange={onChange} />
+            );
+            return componente;
+        }
+
+        it('Renderiza widget de busca corretamente', () => {
+            let func = () => null;
+            let renderer = TestUtils.createRenderer();
+            renderer.render(<WidgetBusca hoteis={[]} buscaHoteis={func} onChange={func} />);
+            let output = renderer.getRenderOutput();
+
+            expect(output.props.className).toBe('item-input-search');
+        })
+
+        it('Busca hotéis e cidades se a query tiver mais de 3 letras', () => {
+            let buscaHoteis = expect.createSpy();
+            let componente = setup(buscaHoteis);
+            let search = componente.refs.input_search
+            search.value = 'Hotel Urbano';
+            TestUtils.Simulate.change(search)
+
+            expect(buscaHoteis.calls.length).toBe(1)
+        })
+
+        it('Esconde resultados quando o campo de busca perde o foco', () => {
+            let componente = setup();
+            let search = componente.refs.input_search
+            TestUtils.Simulate.blur(search)
+
+            expect(componente.state.showResults).toBe(false);
+        })
+
+        it('Mostra resultado quando o campo de busca ganha foco', () => {
+            let componente = setup();
+            let search = componente.refs.input_search
+            TestUtils.Simulate.focus(search)
+
+            expect(componente.state.showResults).toBe(true);
+        })
+
+        it('Executa a property onChange ao selecionar um item da busca', () => {
+            let onChange = expect.createSpy();
+            let componente = setup(() => null, onChange);
+            componente.handleClick('Hotel Urbano', {preventDefault: () => null});
+
+            expect(onChange.calls.length).toBe(1)
         })
     })
 })
