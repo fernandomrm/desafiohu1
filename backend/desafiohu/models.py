@@ -24,9 +24,13 @@ def seleciona_scorer(query):
 class HotelManager(models.Manager):
 
     def cria_amostra(self):
+        if hasattr(HotelManager, '__cache_amostra'):
+            return getattr(HotelManager, '__cache_amostra')
         cidades_e_hoteis = self.values_list('cidade', 'nome')
         cidades, hoteis = zip(*cidades_e_hoteis)
-        return list(set(cidades)) + list(set(hoteis))
+        amostra = list(set(cidades)) + list(set(hoteis))
+        setattr(HotelManager, '__cache_amostra', amostra)
+        return amostra
 
     def busca(self, query):
         query = normaliza_string(query)
